@@ -3,6 +3,7 @@ var fCtrlIsPressed = false;
 function randd(min, max) {
   return Math.floor(arguments.length > 1 ? (max - min + 1) * Math.random() + min : (min + 1) * Math.random());
 };
+const remote = require('electron').remote;
 
 function guidGenerator() {
     var S4 = function() {
@@ -74,7 +75,7 @@ Vue.component('sounder', {
 			return "a_"+this.id;
 		},
 		src: function() {
-			return this.items[randd(0, this.items.length-1)].src;
+			return (this.items && this.items.length)? this.items[randd(0, this.items.length-1)].src : "";
 		}
 	},
 	methods: {		
@@ -93,7 +94,7 @@ Vue.component('sounder', {
 	mounted: function(){
 		
 	},
-	template: `<div :id="id" class="sounder" :data-text="title" @click="itemclick">
+	template: `<div :id="id" class="sounder" :data-text="title" :title="title" @click="itemclick">
 	<span>{{title}}</span>
 	<audio :id="audio_id" :src="src"></audio>
 </div>`
@@ -283,13 +284,35 @@ Vue.component('sconf', {
 				{
 					type: "switch",
 					id: "config",
-					title: "config",
+					title: "Настройки",
 					ico: "",
 					action: "toggleEditMode"
+				},
+				{
+					type: "switch",
+					id: "view_default",
+					title: "Обычный вид",
+					ico: "",
+					action: "toDefaultView"
+				},
+				{
+					type: "switch",
+					id: "view_square",
+					title: "Квадратный вид",
+					ico: "",
+					action: "toSquareView"
+				},
+				{
+					type: "switch",
+					id: "view_panel",
+					title: "Компактный вид",
+					ico: "",
+					action: "toPanelView"
 				}
 			],
 			
 			bEditMode: false,
+			sAppView: "default", // square, panel
 
 			bModalWinShow: false,
 			sModalWinCont: ""
@@ -323,7 +346,7 @@ Vue.component('sconf', {
 			},
 			
 			deleteSound: function(oItem, oSound){
-				debugger;
+				
 				let Collection = this.aSoundCollections.find(el=>el.id==oItem.id);
 				if(Collection) {
 					Collection.items = Collection.items.filter(el=>el.src!=oSound.src);
@@ -365,7 +388,17 @@ Vue.component('sconf', {
 			},
 			toggleEditMode: function(){
 				this.bEditMode = !this.bEditMode;
-			}
+			},
+			
+			toDefaultView: function(){
+				this.sAppView = "default"; 
+			},
+			toSquareView: function(){
+				this.sAppView = "square"; 
+			},
+			toPanelView: function(){
+				this.sAppView = "panel"; 
+			},
 			
 		}
   });

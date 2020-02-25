@@ -7,7 +7,7 @@
 				<link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
-			<div id="app">
+			<div id="app" :class="sAppView">
 				<div id='toolbar'>
 					<titem 
 						v-for="item in aToolbarItems"
@@ -18,6 +18,7 @@
 						@press="proxy(item.action)">
 					</titem>
 				</div>
+				
 				<div id="soundpad" v-show="!bEditMode">
 					<sounder
 						v-for="item in aSoundCollections"
@@ -37,22 +38,25 @@
 						:title="item0.title"
 						:items="item0.items"
 					>
-						<sounditem v-for="sound in item0.items"
-							:key="sound.src"
-							:src="sound.src"
-							@remove="deleteSound(item0, sound)"
-						>
-						</sounditem>
-						
+						<div class='sound_list'>
+							<sounditem v-for="sound in item0.items"
+								:key="sound.src"
+								:src="sound.src"
+								@remove="deleteSound(item0, sound)"
+							>
+							</sounditem>
+						</div>
 						<input :id="'i_'+item0.id" class="new_sound" type="file" @change="addSound($event, item0)"@drop="dropSound($event, item0)"/>
-						<label :for="'i_'+item0.id">Добавить звук...</label>
+						<label :for="'i_'+item0.id" title='Добавить файл'><span>+</span></label>
 					</sconf>
 
-					<button id='new_sounder' @click="addSounder">+</button>
+					<button id='new_sounder' @click="addSounder" title='Добавить...'><span>+</span></button>
 				</div>
+				
 			<pre>
 	{{aSoundCollections}}
 			</pre>
+			
 			</div>
 
 
@@ -72,5 +76,24 @@
 						e.stopPropagation();
 					});
 				</script>
+				 <script>
+            /**
+             * The code can be included in some JS file and included
+             * via require or <script> in the renderer process
+             */
+
+            const { ipcRenderer } = require('electron');
+
+            // Some data that will be sent to the main process
+            let Data = {
+                message: "Hi",
+                someData: "Let's go"
+            };
+
+            // Send information to the main process
+            // if a listener has been set, then the main process
+            // will react to the request !
+            ipcRenderer.send('request-mainprocess-action', Data);
+        </script>
     </body>
 </html>
