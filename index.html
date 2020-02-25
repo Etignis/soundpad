@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Our Code World</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+			<div id="app">
+				<div id='toolbar'>
+					<titem 
+						v-for="item in aToolbarItems"
+						:key="item.id"
+						:title="item.title"
+						:type="item.type"
+						:ico="item.ico"
+						@press="proxy(item.action)">
+					</titem>
+				</div>
+				<div id="soundpad" v-show="!bEditMode">
+					<sounder
+						v-for="item in aSoundCollections"
+						:key="item.id"
+						:id="item.id"
+						:title="item.title"
+						:items="item.items"
+					>
+					</sounder>
+				</div>
+				<div id="config"v-show="bEditMode">
+					<sconf
+						v-for="item0 in aSoundCollections"
+						:key="item0.id"
+						:id="item0.id"
+						:ico="item0.ico"
+						:title="item0.title"
+						:items="item0.items"
+					>
+						<sounditem v-for="sound in item0.items"
+							:key="sound.src"
+							:src="sound.src"
+							@remove="deleteSound(item0, sound)"
+						>
+						</sounditem>
+						
+						<input :id="'i_'+item0.id" class="new_sound" type="file" @change="addSound($event, item0)"@drop="dropSound($event, item0)"/>
+						<label :for="'i_'+item0.id">Добавить звук...</label>
+					</sconf>
+
+					<button id='new_sounder' @click="addSounder">+</button>
+				</div>
+			<pre>
+	{{aSoundCollections}}
+			</pre>
+			</div>
+
+
+				<script type='text/javascript' src="js/vue.js" defer></script>
+				<script type='text/javascript' src='js/controller.js' defer></script>
+				<script>
+					document.addEventListener('drop', (e) => {
+						e.preventDefault();
+						e.stopPropagation();
+
+						<!-- for (const f of e.dataTransfer.files) { -->
+							<!-- console.log('File(s) you dragged here: ', f.path) -->
+						<!-- } -->
+					});
+					document.addEventListener('dragover', (e) => {
+						e.preventDefault();
+						e.stopPropagation();
+					});
+				</script>
+    </body>
+</html>

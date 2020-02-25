@@ -1,0 +1,63 @@
+body{
+	background: @d-gray;
+}
+#toolbar, #config{
+	border-bottom: 1px solid lighten(@d-gray, 10%);
+	.flexParent();
+	justify-content: start;
+	cursor: default;
+	padding: 0;
+	//background: @d-gray;
+}
+.toolbar_item{
+	.fr-convex();
+	.flexChild();
+	@size: 1rem;	
+	width: @size;
+	height: @size;
+	flex-basis: @size;
+	flex-grow: 0;
+	padding: 0;
+
+	&:hover{
+		background: @m-gray;
+		//transform: scale(1.01);
+	}	
+	&:active{
+		background: darken(@m-gray, 10%);
+		//transform: scale(1);
+	}
+
+}
+
+#soundpad{
+	.flexParent();
+	justify-content: start;
+}
+.sounder{
+	.fr-convex();
+	.flexChild();
+	@size: 4rem;	
+	width: @size;
+	height: @size;
+
+	flex-basis: @size;
+	flex-grow: 0;
+
+	.flexParent();
+  align-items: center;
+	.transit(transform, .3s);
+
+	&:hover{
+		background: @m-gray;
+		//transform: scale(1.01);
+	}	
+	&:active{
+		background: darken(@m-gray, 10%);
+		//transform: scale(1);
+	}
+}
+
+.sconf{
+
+}
