@@ -1,7 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
-require('update-electron-app')();
+//require('update-electron-app')();
 // const { ipcMain } = require('electron');
 // ipcMain.on('asynchronous-message', (event, arg) => {
   // console.log(arg) // prints "ping"
@@ -12,17 +12,27 @@ require('update-electron-app')();
   // console.log(arg) // prints "ping"
   // event.returnValue = 'pong'
 // })
-
+let splash;
 function createWindow () {
+	splash = new BrowserWindow({
+		width: 100, 
+		height: 100, 
+		transparent: false, 
+		backgroundColor: '#333333', 
+		frame: false, 
+		alwaysOnTop: true});
+	splash.loadFile('splash.html');
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 100,
     height: 100,
 		frame: false,
-		//show: false,
-		backgroundColor: '#444444',
+		show: false, 
+		alwaysOnTop: false,
+		backgroundColor: '#333333',
+	  //icon: path.join(__dirname , ‘/Icon/Icon.icns’),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      //preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: true
     }
   })
@@ -33,6 +43,7 @@ function createWindow () {
 	//mainWindow.setMenu(null);
 	
 	mainWindow.once('ready-to-show', () => {
+		splash.destroy();
 		mainWindow.show()
 	})
 
@@ -60,3 +71,4 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+

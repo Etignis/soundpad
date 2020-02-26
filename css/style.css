@@ -118,16 +118,22 @@
 }
 html {
   overflow: hidden;
+  background: #151515;
 }
 body {
-  background: #222;
+  background: #151515;
   padding: 0;
   margin: 0;
+  font-family: Verdana, Helvetica, Geneva, Lucida, sans-s;
 }
 #app {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  margin: 3px;
+  margin-bottom: 3px;
+  background: #222;
+  -webkit-app-region: drag;
 }
 #app.default .sounder {
   width: 4rem;
@@ -248,7 +254,7 @@ body {
   color: #777;
 }
 .toolbar_item.active {
-  background: red;
+  background: #3c3c3c;
 }
 .toolbar_item.active i {
   color: #fff;
@@ -322,6 +328,7 @@ body {
   -o-transition: transform 0.3s ease-out 0s;
   transition: transform 0.3s ease-out 0s;
   flex-direction: column;
+  -webkit-app-region: no-drag;
 }
 .sounder:hover {
   background: #777;
@@ -368,6 +375,7 @@ body {
   width: 6rem;
   display: flex;
   flex-direction: column;
+  -webkit-app-region: no-drag;
 }
 .sconf input {
   width: 100%;
@@ -616,7 +624,7 @@ body {
   padding: 0.1em 0.3em;
   cursor: pointer;
   background: #3c3c3c;
-  flex-basis: 4rem;
+  flex-basis: 6rem;
 }
 #new_sounder:hover {
   background: #777;

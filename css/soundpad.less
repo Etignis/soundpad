@@ -1,16 +1,22 @@
 html {
 	overflow: hidden;
+	background: darken(@d-gray, 5%);
 }
 body{
-	background: @d-gray;
+	background: darken(@d-gray, 5%);
 	padding: 0;
   margin: 0;
+	font-family: Verdana, Helvetica, Geneva, Lucida, sans-s;
 }
 
 #app{
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
+	margin: 3px;
+	margin-bottom: 3px;
+	background: @d-gray;
+	-webkit-app-region: drag;
 	&.default{
 		@size: 4rem;
 		
@@ -104,7 +110,7 @@ body{
 	}
 	
 	&.active{
-		background: red;
+		background: lighten(@d-gray, 10%);
 		i{
 			color: @white;
 		}
@@ -144,6 +150,7 @@ body{
 	.transit(transform, .3s);
     //display: flex;
     flex-direction: column;
+	 -webkit-app-region: no-drag;
 	&:hover{
 		background: @m-gray;
 		//transform: scale(1.01);
@@ -164,6 +171,7 @@ body{
 	width: @size;
 	display: flex;
 	flex-direction: column;
+	 -webkit-app-region: no-drag;
 	
 	input{
 		width: 100%;
@@ -279,6 +287,7 @@ body{
 	padding: .1em .3em;
 	cursor: pointer;	
 	background: lighten(@d-gray, 10%);
+	@size: 6rem;
 	flex-basis: @size;
 	&:hover{
 		background: @m-gray;

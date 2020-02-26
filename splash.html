@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Звукарь</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">				
+    </head>
+    <body style='display: flex; align-items: center; justify-content: space-around; color: #eee; background: #333; width:100px; height: 100px; margin :0 auto; font-family: Verdana, Helvetica, Geneva, Lucida, sans-s; overflow: hidden'>
+			<div id='load'>
+				Загружаем...
+			</div>
+			
+			<style>
+				#load {				
+					animation:spin 4s linear infinite;
+				}
+				@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+			</style>
+    </body>
+</html>
