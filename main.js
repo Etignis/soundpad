@@ -1,25 +1,26 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
-const { ipcMain } = require('electron');
-ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.reply('asynchronous-reply', 'pong')
-})
+require('update-electron-app')();
+// const { ipcMain } = require('electron');
+// ipcMain.on('asynchronous-message', (event, arg) => {
+  // console.log(arg) // prints "ping"
+  // event.reply('asynchronous-reply', 'pong')
+// })
 
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log(arg) // prints "ping"
-  event.returnValue = 'pong'
-})
+// ipcMain.on('synchronous-message', (event, arg) => {
+  // console.log(arg) // prints "ping"
+  // event.returnValue = 'pong'
+// })
 
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
-		//frame: false,
+    width: 100,
+    height: 100,
+		frame: false,
 		//show: false,
-		//backgroundColor: '#2e2c29',
+		backgroundColor: '#444444',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: true

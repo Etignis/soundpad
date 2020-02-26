@@ -116,8 +116,18 @@
   -ms-user-select: none;
   user-select: none;
 }
+html {
+  overflow: hidden;
+}
 body {
   background: #222;
+  padding: 0;
+  margin: 0;
+}
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 #app.default .sounder {
   width: 4rem;
@@ -132,6 +142,9 @@ body {
 #app.square .sounder span {
   display: none;
 }
+#app.square .toolbar_item {
+  padding: 0.1rem 0.2rem;
+}
 #app.panel .sounder {
   width: 1em;
   height: 1em;
@@ -140,17 +153,54 @@ body {
 #app.panel .sounder span {
   display: none;
 }
-#toolbar,
-#config {
-  border-bottom: 1px solid #3c3c3c;
+#app.panel .toolbar_item {
+  padding: 0.04rem;
+  min-width: 1rem;
+}
+#toolbar {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
   align-items: stretch;
-  justify-content: start;
+  justify-content: space-between;
   cursor: default;
   padding: 0;
+  background: #151515;
+  flex-direction: row-reverse;
+  -webkit-app-region: drag;
+}
+#config,
+#soundpad {
+  overflow-y: auto;
+}
+#config::-webkit-scrollbar,
+#soundpad::-webkit-scrollbar {
+  width: 0.15rem;
+  height: 0.15rem;
+}
+#config::-webkit-scrollbar-thumb,
+#soundpad::-webkit-scrollbar-thumb {
+  background: #777;
+}
+#config::-webkit-scrollbar-track,
+#soundpad::-webkit-scrollbar-track {
+  background: #3c3c3c;
+}
+#config body,
+#soundpad body {
+  scrollbar-face-color: #777;
+  scrollbar-track-color: #3c3c3c;
+}
+#config {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: stretch;
+  cursor: default;
+  padding: 0;
+  justify-content: start;
 }
 .toolbar_item {
   -webkit-border-radius: 3px 3px 3px 3px;
@@ -185,17 +235,35 @@ body {
   -ms-user-select: none;
   user-select: none;
   flex-grow: 1;
-  width: 1rem;
-  height: 1rem;
-  flex-basis: 1rem;
+  min-width: 3em;
   flex-grow: 0;
-  padding: 0;
+  padding: 0.4rem 0.3rem;
+  margin: 0.05rem;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-app-region: no-drag;
+}
+.toolbar_item i {
+  color: #777;
+}
+.toolbar_item.active {
+  background: red;
+}
+.toolbar_item.active i {
+  color: #fff;
 }
 .toolbar_item:hover {
   background: #777;
 }
+.toolbar_item:hover i {
+  color: #fff;
+}
 .toolbar_item:active {
   background: #5e5e5e;
+}
+.toolbar_item:active i {
+  color: #fff;
 }
 #soundpad {
   display: flex;
@@ -253,6 +321,7 @@ body {
   -ms-transition: transform 0.3s ease-out 0s;
   -o-transition: transform 0.3s ease-out 0s;
   transition: transform 0.3s ease-out 0s;
+  flex-direction: column;
 }
 .sounder:hover {
   background: #777;
@@ -310,6 +379,76 @@ body {
 .sconf input:active {
   background: white;
 }
+.sconf .ico_input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+.sconf .ico_input input {
+  flex-grow: 1;
+}
+.sconf .ico_input select {
+  width: 1rem;
+}
+.sconf .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: stretch;
+  flex-wrap: nowrap;
+}
+.sconf .handler {
+  flex-grow: 1;
+  cursor: grab;
+}
+.sconf .remove {
+  -webkit-border-radius: 3px 3px 3px 3px;
+  -moz-border-radius: 3px 3px 3px 3px;
+  border-radius: 3px 3px 3px 3px;
+  overflow: visible;
+  background: #fff;
+  border: 0px solid #d8d8d8;
+  border-top-width: 0px;
+  /*display: inline-block;*/
+  font-weight: bold;
+  padding: 0.7em;
+  margin: 0.3em;
+  border-width: 1px;
+  border-style: solid;
+  border-bottom-width: 2px;
+  text-decoration: none;
+  border-color: #555555;
+  color: #fff;
+  background: #666666;
+  box-shadow: 0 1px 0px 0px rgba(255, 255, 255, 0.2) inset;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: 0.04rem 0.2rem;
+  margin: 0.05rem;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+.sconf .remove:hover {
+  background: #777;
+}
+.sconf .remove:active {
+  background: #5e5e5e;
+}
 .new_sound {
   display: none;
 }
@@ -352,7 +491,7 @@ body {
   align-items: stretch;
   align-items: center;
   margin: 0;
-  padding: .1em;
+  padding: 0.1em;
   flex-grow: 1;
 }
 .new_sound + label span {
@@ -370,18 +509,18 @@ body {
   max-height: 5rem;
 }
 .sound_list::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0.15rem;
+  height: 0.15rem;
 }
 .sound_list::-webkit-scrollbar-thumb {
   background: #777;
 }
 .sound_list::-webkit-scrollbar-track {
-  background: #222;
+  background: #3c3c3c;
 }
 .sound_list body {
   scrollbar-face-color: #777;
-  scrollbar-track-color: #222;
+  scrollbar-track-color: #3c3c3c;
 }
 .sounditem {
   display: flex;
@@ -423,9 +562,11 @@ body {
   justify-content: space-around;
   flex-wrap: wrap;
   align-items: stretch;
-  align-items: center;
-  margin: 0;
-  padding: .1em .3em;
+  padding: 0.04rem 0.2rem;
+  margin: 0.05rem;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
   cursor: pointer;
 }
 .sounditem button:hover {
@@ -471,8 +612,8 @@ body {
   flex-wrap: wrap;
   align-items: stretch;
   align-items: center;
-  margin: 1rem .3rem;
-  padding: .1em .3em;
+  margin: 1rem 0.3rem;
+  padding: 0.1em 0.3em;
   cursor: pointer;
   background: #3c3c3c;
   flex-basis: 4rem;
@@ -482,4 +623,10 @@ body {
 }
 #new_sounder:active {
   background: #5e5e5e;
+}
+.drag_ghost {
+  opacity: 0.8;
+}
+.drag_drag {
+  outline: 1ps solid red;
 }

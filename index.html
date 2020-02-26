@@ -1,22 +1,34 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Our Code World</title>
+        <title>Звукарь</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link rel="stylesheet" type="text/css" href="css/style.css">
+				<link href="fonts/fontawesome-free-5.12.1-web/css/all.css" rel="stylesheet"> <!--load all styles -->
     </head>
     <body>
 			<div id="app" :class="sAppView">
 				<div id='toolbar'>
-					<titem 
-						v-for="item in aToolbarItems"
-						:key="item.id"
-						:title="item.title"
-						:type="item.type"
-						:ico="item.ico"
-						@press="proxy(item.action)">
-					</titem>
+					<div class='panel'>
+						<titem 
+							key="quite"
+							title="Закрыть"
+							type="button"
+							ico="fas fa-times"
+							@press="quite">
+						</titem>
+					</div>
+					<div class='panel'>
+						<titem 
+							v-for="item in aToolbarItems"
+							:key="item.id"
+							:title="item.title"
+							:type="item.type"
+							:ico="item.ico"
+							@press="proxy(item.action)">
+						</titem>
+					</div>
 				</div>
 				
 				<div id="soundpad" v-show="!bEditMode">
@@ -26,6 +38,7 @@
 						:id="item.id"
 						:title="item.title"
 						:items="item.items"
+						:ico="item.ico"
 					>
 					</sounder>
 				</div>
@@ -37,6 +50,11 @@
 						:ico="item0.ico"
 						:title="item0.title"
 						:items="item0.items"
+						:iconlist="aIconNames"
+						@ico_changed="change_ico($event, item0)"
+						@title_changed="change_title($event, item0)"
+						@remove="remove_sounder(item0)"
+						@drop="dropSound($event, item0)"
 					>
 						<div class='sound_list'>
 							<sounditem v-for="sound in item0.items"
@@ -46,21 +64,22 @@
 							>
 							</sounditem>
 						</div>
-						<input :id="'i_'+item0.id" class="new_sound" type="file" @change="addSound($event, item0)"@drop="dropSound($event, item0)"/>
+						<input :id="'i_'+item0.id" class="new_sound" type="file" @change="addSound($event, item0)" @drop="dropSound($event, item0)"/>
 						<label :for="'i_'+item0.id" title='Добавить файл'><span>+</span></label>
 					</sconf>
 
 					<button id='new_sounder' @click="addSounder" title='Добавить...'><span>+</span></button>
 				</div>
 				
-			<pre>
-	{{aSoundCollections}}
-			</pre>
+			<!-- <pre> -->
+	<!-- {{aLocalDataDebug}} -->
+			<!-- </pre> -->
 			
 			</div>
 
 
 				<script type='text/javascript' src="js/vue.js" defer></script>
+				<script type='text/javascript' src='js/Sortable.js' defer></script>
 				<script type='text/javascript' src='js/controller.js' defer></script>
 				<script>
 					document.addEventListener('drop', (e) => {
@@ -81,7 +100,7 @@
              * The code can be included in some JS file and included
              * via require or <script> in the renderer process
              */
-
+/*/
             const { ipcRenderer } = require('electron');
 
             // Some data that will be sent to the main process
@@ -94,6 +113,7 @@
             // if a listener has been set, then the main process
             // will react to the request !
             ipcRenderer.send('request-mainprocess-action', Data);
+						/**/
         </script>
     </body>
 </html>
