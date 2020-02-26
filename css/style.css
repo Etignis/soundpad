@@ -136,31 +136,40 @@ body {
   -webkit-app-region: drag;
 }
 #app.default .sounder {
+  width: 8rem;
+  height: 8rem;
+  flex-basis: 8rem;
+}
+#app.default .sconf {
+  flex-basis: 8rem;
+}
+#app.square .sounder {
   width: 4rem;
   height: 4rem;
   flex-basis: 4rem;
 }
-#app.square .sounder {
+#app.square .sounder span {
+  display: none;
+}
+#app.square .sconf {
+  flex-basis: 4rem;
+}
+#app.square .toolbar_item {
+  padding: .1rem .2rem;
+}
+#app.panel .sounder {
   width: 2rem;
   height: 2rem;
   flex-basis: 2rem;
 }
-#app.square .sounder span {
-  display: none;
-}
-#app.square .toolbar_item {
-  padding: 0.1rem 0.2rem;
-}
-#app.panel .sounder {
-  width: 1em;
-  height: 1em;
-  flex-basis: 1em;
-}
 #app.panel .sounder span {
   display: none;
 }
+#app.panel .sconf {
+  flex-basis: 4rem;
+}
 #app.panel .toolbar_item {
-  padding: 0.04rem;
+  padding: .04rem;
   min-width: 1rem;
 }
 #toolbar {
@@ -243,8 +252,8 @@ body {
   flex-grow: 1;
   min-width: 3em;
   flex-grow: 0;
-  padding: 0.4rem 0.3rem;
-  margin: 0.05rem;
+  padding: .4rem .3rem;
+  margin: .05rem;
   background: transparent;
   border-color: transparent;
   box-shadow: none;
@@ -312,9 +321,10 @@ body {
   -ms-user-select: none;
   user-select: none;
   flex-grow: 1;
-  width: 4rem;
-  height: 4rem;
-  flex-basis: 4rem;
+  padding: .1rem;
+  width: 6rem;
+  height: 6rem;
+  flex-basis: 6rem;
   flex-grow: 0;
   display: flex;
   flex-direction: row;
@@ -329,6 +339,17 @@ body {
   transition: transform 0.3s ease-out 0s;
   flex-direction: column;
   -webkit-app-region: no-drag;
+}
+.sounder .core {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.sounder i {
+  text-align: center;
+  font-size: 140%;
+}
+.sounder span {
+  margin-top: .5rem;
 }
 .sounder:hover {
   background: #777;
@@ -444,8 +465,8 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  padding: 0.04rem 0.2rem;
-  margin: 0.05rem;
+  padding: .04rem .2rem;
+  margin: .05rem;
   background: transparent;
   border-color: transparent;
   box-shadow: none;
@@ -499,7 +520,7 @@ body {
   align-items: stretch;
   align-items: center;
   margin: 0;
-  padding: 0.1em;
+  padding: .1em;
   flex-grow: 1;
 }
 .new_sound + label span {
@@ -570,8 +591,8 @@ body {
   justify-content: space-around;
   flex-wrap: wrap;
   align-items: stretch;
-  padding: 0.04rem 0.2rem;
-  margin: 0.05rem;
+  padding: .04rem .2rem;
+  margin: .05rem;
   background: transparent;
   border-color: transparent;
   box-shadow: none;
@@ -620,11 +641,12 @@ body {
   flex-wrap: wrap;
   align-items: stretch;
   align-items: center;
-  margin: 1rem 0.3rem;
-  padding: 0.1em 0.3em;
+  margin: 1rem .3rem;
+  padding: .1em .3em;
   cursor: pointer;
   background: #3c3c3c;
   flex-basis: 6rem;
+  -webkit-app-region: no-drag;
 }
 #new_sounder:hover {
   background: #777;

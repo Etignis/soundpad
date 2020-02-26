@@ -30,7 +30,7 @@ function createWindow () {
 		show: false, 
 		alwaysOnTop: false,
 		backgroundColor: '#333333',
-	  //icon: path.join(__dirname , ‘/Icon/Icon.icns’),
+	  icon: path.join(__dirname, 'img/64x64.png'),
     webPreferences: {
       //preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: true

@@ -4,7 +4,13 @@
   "description": "A minimal sound play application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "postinstall": "install-app-deps",
+    "pack": "build --dir",
+    "dist": "build",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . sounder --overwrite --asar=true --platform=win32 --arch=ia32 --icon=img/64x64.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Sounder\"",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
   },
   "repository": "https://github.com/Etignis/soundpad",
   "keywords": [
@@ -16,9 +22,40 @@
   "author": "Tenebrius Etignis",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^8.0.1"
+    "electron": "^8.0.2",
+    "electron-builder": "^22.3.2",
+    "electron-packager": "^14.2.1"
+  },
+  "build": {
+    "appId": "Soundpad",
+    "category": "your.app.category.type",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "img/64x64.png"
+    }
   },
   "dependencies": {
+    "sortablejs": "^1.10.2",
     "update-electron-app": "^1.5.0"
   }
 }

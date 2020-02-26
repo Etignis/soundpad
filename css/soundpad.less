@@ -18,21 +18,22 @@ body{
 	background: @d-gray;
 	-webkit-app-region: drag;
 	&.default{
-		@size: 4rem;
+		@size: 8rem;
 		
 		.sounder {
-			@size: 4rem;	
 			width: @size;
 			height: @size;
 
 			flex-basis: @size;
 		}
+		.sconf{
+			flex-basis: @size;
+		}
 	}
 	&.square{
-		@size: 2rem;
+		@size: 4rem;
 		
 		.sounder {
-			@size: 2rem;	
 			width: @size;
 			height: @size;
 
@@ -40,6 +41,9 @@ body{
 			span{
 				display: none;
 			}
+		}
+		.sconf{
+			flex-basis: @size;
 		}
 		
 		.toolbar_item{
@@ -47,10 +51,9 @@ body{
 		}
 	}
 	&.panel{
-		@size: 1rem;
+		@size: 2rem;
 		
-		.sounder {
-			@size: 1em;	
+		.sounder {	
 			width: @size;
 			height: @size;
 
@@ -58,6 +61,9 @@ body{
 			span{
 				display: none;
 			}
+		}
+		.sconf{
+			flex-basis: 4rem;
 		}
 		.toolbar_item{
 			padding: .04rem;
@@ -138,7 +144,8 @@ body{
 .sounder{
 	.fr-convex();
 	.flexChild();
-	@size: 4rem;	
+	padding: .1rem;
+	@size: 6rem;	
 	width: @size;
 	height: @size;
 
@@ -151,6 +158,18 @@ body{
     //display: flex;
     flex-direction: column;
 	 -webkit-app-region: no-drag;
+	 
+	.core{
+		display: flex;
+		flex-direction: column-reverse;
+	} 
+	i{
+		text-align: center;
+		font-size: 140%;
+	}
+	span{		
+		margin-top: .5rem;
+	}
 	&:hover{
 		background: @m-gray;
 		//transform: scale(1.01);
@@ -289,6 +308,7 @@ body{
 	background: lighten(@d-gray, 10%);
 	@size: 6rem;
 	flex-basis: @size;
+	 -webkit-app-region: no-drag;
 	&:hover{
 		background: @m-gray;
 		//transform: scale(1.01);

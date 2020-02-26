@@ -1,6 +1,6 @@
 const remote = require('electron').remote;
 let w = remote.getCurrentWindow();
-
+let Sortable = require ('sortablejs');
 
 var fCtrlIsPressed = false;
 
@@ -101,9 +101,11 @@ Vue.component('sounder', {
 		
 	},
 	template: `<div :id="id" class="sounder" :data-text="title" :title="title" @click="itemclick">
-	<span>{{title}}</span>
-	<i :class="full_ico"></i>
-	<audio :id="audio_id" :src="src"></audio>
+	<div class='core'>
+		<span>{{title}}</span>
+		<i :class="full_ico"></i>
+		<audio :id="audio_id" :src="src" preload="auto"></audio>
+	</div>
 </div>`
 });
 Vue.component('sounditem', {
@@ -401,6 +403,8 @@ Vue.component('sconf', {
 			if(this.oWin.pos.x !=0 || this.oWin.pos.y != 0){
 				w.setPosition(this.oWin.pos.x, this.oWin.pos.y);
 			}
+			
+			w.setAlwaysOnTop(this.oWin.bForeground);
 
 
 			w.on('resize', function () {
@@ -496,7 +500,7 @@ Vue.component('sconf', {
 				this._saveData();
 			},
 			
-			addSound: function(oItem, sPath){
+			_addSound: function(oItem, sPath){
 				sPath = sPath.replace(/\\/g,"/");
 				if(!oItem.items.find(el=>el.src==sPath)){					
 					oItem.items.push({
