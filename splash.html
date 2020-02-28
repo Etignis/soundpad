@@ -7,12 +7,73 @@
     </head>
     <body style='display: flex; align-items: center; justify-content: space-around; color: #eee; background: #333; width:100px; height: 100px; margin :0 auto; font-family: Verdana, Helvetica, Geneva, Lucida, sans-s; overflow: hidden'>
 			<div id='load'>
-				Загружаем...
+				
 			</div>
 			
 			<style>
+				:root{
+					--color: #444;
+				}
 				#load {				
-					animation:spin 4s linear infinite;
+					display: block;
+					width: 80px;
+					height: 80px;
+					background: rgba(255, 255, 255, 0);
+					border-radius: 50%;
+					position: relative;
+					animation-timing-function: linear;
+				}
+				#load:before {
+					content: "";
+					background: var(--color);
+					position: absolute;
+					width: 20px;
+					height: 0;
+					top: 30px;
+					left: 40px;
+					border-radius: 50%;
+					border: 40px solid #ffffff;
+					animation: l74 1.5s infinite normal;
+					animation-timing-function: linear;
+				}
+				#load:after {
+					content: "";
+					background: var(--color);
+					position: absolute;
+					width: 0;
+					height: 0;
+					top: 40px;
+					left: 40px;
+					border-radius: 50%;
+					animation: l74 1.5s infinite normal;
+					animation-delay: 0.75s;
+					animation-timing-function: linear;
+				}
+				@keyframes l74 {
+					0% {
+						background: var(--color);
+						border: 0 solid var(--color);
+						width: 0;
+						height: 0;
+						top: 40px;
+						left: 40px;
+					}
+					50% {
+						background: rgba(255, 255, 255, 0);
+						border: 20px solid var(--color);
+						width: 40px;
+						height: 40px;
+						top: 0px;
+						left: 0px;
+					}
+					100% {
+						background: rgba(255, 255, 255, 0);
+						border: 0 solid rgba(255, 255, 255, 0);
+						width: 80px;
+						height: 80px;
+						top: 0px;
+						left: 0px;
+					}
 				}
 				@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 			</style>
