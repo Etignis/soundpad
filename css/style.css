@@ -116,6 +116,9 @@
   -ms-user-select: none;
   user-select: none;
 }
+* {
+  box-sizing: border-box;
+}
 html {
   overflow: hidden;
   background: #151515;
@@ -402,11 +405,16 @@ body {
   width: 100%;
   margin: 0.1em 0;
   border: 0;
-  background: rgba(250, 250, 250, 0.8);
+  background: #3c3c3c;
+  color: #ddd;
+  padding: .2rem;
+  border: 1px solid #000;
+  border-radius: 3px 0 0 3px;
+  border-right-width: 0;
 }
 .sconf input:hover,
 .sconf input:active {
-  background: white;
+  background: #484848;
 }
 .sconf .ico_input {
   display: flex;
@@ -421,6 +429,17 @@ body {
 }
 .sconf .ico_input select {
   width: 1rem;
+  background: #3c3c3c;
+  color: #ddd;
+}
+.sconf .ico_input option {
+  color: #ddd;
+}
+.sconf .ico_input i {
+  padding: .2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .sconf .header {
   display: flex;
@@ -592,17 +611,19 @@ body {
   flex-wrap: wrap;
   align-items: stretch;
   padding: .04rem .2rem;
-  margin: .05rem;
-  background: transparent;
-  border-color: transparent;
+  margin: .1rem;
+  margin-left: 0;
+  background: #3c3c3c;
+  border-color: #000;
   box-shadow: none;
   cursor: pointer;
+  border-radius: 0 3px 3px 0;
 }
 .sounditem button:hover {
-  background: #777;
+  background: #484848;
 }
 .sounditem button:active {
-  background: #5e5e5e;
+  background: #3c3c3c;
 }
 #new_sounder {
   -webkit-border-radius: 3px 3px 3px 3px;
