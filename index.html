@@ -52,10 +52,10 @@
 						:title="item0.title"
 						:items="item0.items"
 						:iconlist="aIconNames"
+						:ref="'i_'+item0.id"
 						@ico_changed="change_ico($event, item0)"
 						@title_changed="change_title($event, item0)"
 						@remove="remove_sounder(item0)"
-						@drop="dropSound($event, item0)"
 					>
 						<div class='sound_list'>
 							<sounditem v-for="sound in item0.items"
@@ -65,8 +65,13 @@
 							>
 							</sounditem>
 						</div>
-						<input :id="'i_'+item0.id" class="new_sound" type="file" @change="addSound($event, item0)" @drop="dropSound($event, item0)"/>
-						<label :for="'i_'+item0.id" title='Добавить файл'><span>+</span></label>
+						<input 
+							:id="'i_'+item0.id" 
+							class="new_sound" 
+							type="file" 
+							@change="addSound($event, item0)" 
+							multiple/>
+						<label :for="'i_'+item0.id" :id="'i_'+item0.id" title='Добавить файл'><span>+</span></label>
 					</sconf>
 
 					<button id='new_sounder' @click="addSounder" title='Добавить...'><span>+</span></button>
@@ -90,6 +95,14 @@
 						<!-- for (const f of e.dataTransfer.files) { -->
 							<!-- console.log('File(s) you dragged here: ', f.path) -->
 						<!-- } -->
+						let sId = "";
+						for (let oEl = e.target; !(sId = oEl.dataset.id) ; oEl = oEl.parentNode){
+						}
+						//e.target.parentNode.dataset.id;			
+						if(sId) {
+							let oItem = app.$refs['i_'+sId][0];
+							app.dropSound(e, oItem);
+						}						
 					});
 					document.addEventListener('dragover', (e) => {
 						e.preventDefault();

@@ -335,11 +335,7 @@ body {
   flex-wrap: wrap;
   align-items: stretch;
   align-items: center;
-  -webkit-transition: transform 0.3s ease-out 0s;
-  -moz-transition: transform 0.3s ease-out 0s;
-  -ms-transition: transform 0.3s ease-out 0s;
-  -o-transition: transform 0.3s ease-out 0s;
-  transition: transform 0.3s ease-out 0s;
+  transition: transform .3s, background .3s;
   flex-direction: column;
   -webkit-app-region: no-drag;
 }
@@ -399,6 +395,7 @@ body {
   width: 6rem;
   display: flex;
   flex-direction: column;
+  transition: background .3s;
   -webkit-app-region: no-drag;
 }
 .sconf input {
@@ -561,14 +558,14 @@ body {
   height: 0.15rem;
 }
 .sound_list::-webkit-scrollbar-thumb {
-  background: #777;
-}
-.sound_list::-webkit-scrollbar-track {
   background: #3c3c3c;
 }
+.sound_list::-webkit-scrollbar-track {
+  background: #777;
+}
 .sound_list body {
-  scrollbar-face-color: #777;
-  scrollbar-track-color: #3c3c3c;
+  scrollbar-face-color: #3c3c3c;
+  scrollbar-track-color: #777;
 }
 .sounditem {
   display: flex;
