@@ -503,7 +503,7 @@ Vue.component('sconf', {
 			
 			_addSound: function(oItem, sPath){
 				sPath = sPath.replace(/\\/g,"/");
-				if(!oItem.items.find(el=>el.src==sPath)){					
+				if(/.(mp3)|(flac)|(wav)$/.test(sPath) && !oItem.items.find(el=>el.src==sPath)){					
 					oItem.items.push({
 						src: sPath
 					});
@@ -516,24 +516,6 @@ Vue.component('sconf', {
 				this._saveData();
 			},
 			dropSound: function(oEvent, oItem){
-				/*
-				fs.readdir(f.path, function (err, files) {
-    //handling error
-    if (err) {
-        return console.log('Unable to scan directory: ' + err);
-    } 
-    //listing all files using forEach
-    files.forEach(function (file) {
-        // Do whatever you want to do with the file
-        console.log(file); 
-    });});
-    
-				*/
-				// let aFiles = [];
-				// for (const f of oEvent.dataTransfer.files) {
-					// this._addSound(oItem, f.path);
-				// }
-				debugger;
 				let that = this;
 				for(let i=0; i<oEvent.dataTransfer.items.length; i++ ) {
 					if(oEvent.dataTransfer.items[i].webkitGetAsEntry().isFile){

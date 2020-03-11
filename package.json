@@ -1,16 +1,22 @@
 {
   "name": "Soundpad",
+  "productName": "Soundpad",
   "version": "1.0.0",
   "description": "A minimal sound play application",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start0": "electron .",
     "postinstall": "install-app-deps",
     "pack": "build --dir",
     "dist": "build",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . sounder --overwrite --asar=true --platform=win32 --arch=ia32 --icon=img/64x64.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Sounder\"",
-    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds"
+    "package-win": "electron-packager . sounder --overwrite --asar=true --platform=win32 --arch=ia32 --icon=img/fav.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Sounder\"",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
   },
   "repository": "https://github.com/Etignis/soundpad",
   "keywords": [
@@ -19,12 +25,47 @@
     "play",
     "player"
   ],
-  "author": "Tenebrius Etignis",
+  "author": {
+    "name": "Tenebrius Etignis",
+    "email": "etignis@gmail.com"
+  },
   "license": "CC0-1.0",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Soundpad"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  },
   "devDependencies": {
-    "electron": "^8.0.2",
     "electron-builder": "^22.3.2",
-    "electron-packager": "^14.2.1"
+    "electron-packager": "^14.2.1",
+    "@electron-forge/cli": "^6.0.0-beta.50",
+    "@electron-forge/maker-deb": "^6.0.0-beta.50",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.50",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.50",
+    "@electron-forge/maker-zip": "^6.0.0-beta.50",
+    "electron": "8.1.1"
   },
   "build": {
     "appId": "Soundpad",
@@ -55,6 +96,7 @@
     }
   },
   "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
     "sortablejs": "^1.10.2",
     "update-electron-app": "^1.5.0"
   }

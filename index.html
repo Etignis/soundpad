@@ -70,6 +70,7 @@
 							class="new_sound" 
 							type="file" 
 							@change="addSound($event, item0)" 
+							accept="audio/*"
 							multiple/>
 						<label :for="'i_'+item0.id" :id="'i_'+item0.id" title='Добавить файл'><span>+</span></label>
 					</sconf>
