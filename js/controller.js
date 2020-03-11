@@ -1,4 +1,5 @@
 const remote = require('electron').remote;
+const fs = require('fs');
 let w = remote.getCurrentWindow();
 let Sortable = require ('sortablejs');
 
@@ -515,10 +516,38 @@ Vue.component('sconf', {
 				this._saveData();
 			},
 			dropSound: function(oEvent, oItem){
+				/*
+				fs.readdir(f.path, function (err, files) {
+    //handling error
+    if (err) {
+        return console.log('Unable to scan directory: ' + err);
+    } 
+    //listing all files using forEach
+    files.forEach(function (file) {
+        // Do whatever you want to do with the file
+        console.log(file); 
+    });});
+    
+				*/
 				// let aFiles = [];
-				for (const f of oEvent.dataTransfer.files) {
-					this._addSound(oItem, f.path);
+				// for (const f of oEvent.dataTransfer.files) {
+					// this._addSound(oItem, f.path);
+				// }
+				debugger;
+				let that = this;
+				for(let i=0; i<oEvent.dataTransfer.items.length; i++ ) {
+					if(oEvent.dataTransfer.items[i].webkitGetAsEntry().isFile){
+						this._addSound(oItem, oEvent.dataTransfer.files[i].path);						
+					} else {
+						let aFiles = fs.readdirSync(oEvent.dataTransfer.files[i].path);
+						if(aFiles && aFiles.length) {
+							aFiles.forEach(function(sFile){
+								that._addSound(oItem, oEvent.dataTransfer.files[i].path.replace(/\\/g,"/")+"/"+sFile);	
+							});
+						}
+					}
 				}
+				
 				this._saveData();
 			},
 
