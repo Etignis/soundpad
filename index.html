@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				
-				<div id="soundpad" v-show="!bEditMode">
+				<div id="soundpad" v-show="!bEditMode && !bConfigMode">
 					<sounder
 						v-for="item in aSoundCollections"
 						:key="item.id"
@@ -43,7 +43,7 @@
 					>
 					</sounder>
 				</div>
-				<div id="config"v-show="bEditMode">
+				<div id="edit" v-show="bEditMode">
 					<sconf
 						v-for="item0 in aSoundCollections"
 						:key="item0.id"
@@ -78,6 +78,29 @@
 					<button id='new_sounder' @click="addSounder" title='Добавить...'><span>+</span></button>
 				</div>
 				
+				
+				<div id='config' v-show="bConfigMode" >
+					<h1>Настройки</h1>
+					<article>
+						<h2>Горячие клавиши</h2>
+						<p>При нажатии сочетаний ниже будет воспроизведен звук под соответствующей цифрой</p>
+						<div class='hotkey_tabble'>
+							<div class='col'>
+								<div>
+									<div><label><input type='checkbox' v-model="oHotkeys.SHIFT" @click="setSoundHotkeyShift"> SHIFT</label></div>
+									<div><label><input type='checkbox' v-model="oHotkeys.CTRL" @click="setSoundHotkeyCtrl"> CTRL</label></div>
+									<div><label><input type='checkbox' v-model="oHotkeys.ALT" @click="setSoundHotkeyAlt"> ALT</label></div>
+								</div>
+							</div>
+							<div class='col'>
+								+
+							</div>
+							<div class='col'>
+								Цифра
+							</div>
+						</div>
+					</article>
+				</div>
 			<!-- <pre> -->
 	<!-- {{aLocalDataDebug}} -->
 			<!-- </pre> -->

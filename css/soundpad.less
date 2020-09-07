@@ -11,7 +11,9 @@ body{
   margin: 0;
 	font-family: Verdana, Helvetica, Geneva, Lucida, sans-s;
 }
-
+label{
+	cursor :pointer;
+}
 #app{
 	height: 100vh;
 	display: flex;
@@ -20,6 +22,9 @@ body{
 	margin-bottom: 3px;
 	background: @d-gray;
 	-webkit-app-region: drag;
+	
+  counter-reset: tracks;
+
 	&.default{
 		@size: 8rem;
 		
@@ -27,7 +32,7 @@ body{
 			width: @size;
 			height: @size;
 
-			flex-basis: @size;
+			flex-basis: @size;			
 		}
 		.sconf{
 			flex-basis: @size;
@@ -89,12 +94,36 @@ body{
 	}
 }
 
+#edit,
 #config,
 #soundpad{
 	overflow-y: auto;	
 	.scrollbars(.15rem, @m-gray, lighten(@d-gray, 10%));
 }
-#config{
+#config{	
+	color: @m-gray;
+	padding: @padding;
+	
+	article{
+		padding: @padding;
+		border: 1px solid @m-gray;
+		border-radius: 3px;
+	}
+	.hotkey_tabble{
+		-webkit-app-region: no-drag;
+		display: flex;
+		flex-wrap: wrap;
+		
+		.col{
+			margin: @padding;
+			padding: @padding;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+}
+#edit{
 	.flexParent();
 	cursor: default;
 	padding: 0;
@@ -181,7 +210,31 @@ body{
 		background: darken(@m-gray, 10%);
 		//transform: scale(1);
 	}
+	
+	&:nth-child(-n+9){
+		position: relative;
+		&:before{
+				counter-increment: tracks; /* Указываем идентификатор счетчика */
+				content: counter(tracks); /* Выводим текст перед содержимым тега <h2> */
+				//padding-right: 0.5em;
+				opacity: .8;
+				position: absolute;
+				top: -2px;
+				right: 0;
+				
+				text-shadow: -1px -1px 0 @m-gray,
+				-1px 0 0 @m-gray,
+				-1px 1px 0 @m-gray,
+				-1px -1px 2px @m-gray,
+				-1px 0 2px @m-gray,
+				-1px 1px 2px @m-gray,
+				-3px 3px 6px @m-gray,
+				-3px 0 6px @m-gray,
+				-3px 3px 6px @m-gray;
+		}
+	}
 }
+
 
 .sconf{
 	.fr-convex();

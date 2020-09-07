@@ -1,6 +1,11 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, globalShortcut, ipcMain} = require('electron');
 const path = require('path');
+let mainWindow;
+ipcMain.on('hotkeys', function(oEvent, aKeys) {
+	//console.dir(arguments);
+	setHotkeys(aKeys);
+});
 //require('update-electron-app')();
 // const { ipcMain } = require('electron');
 // ipcMain.on('asynchronous-message', (event, arg) => {
@@ -23,7 +28,7 @@ function createWindow () {
 		alwaysOnTop: true});
 	splash.loadFile('splash.html');
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 100,
     height: 100,
 		frame: false,
@@ -46,10 +51,67 @@ function createWindow () {
 		splash.destroy();
 		mainWindow.show()
 	})
-
+	
+	
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }
+
+/**
+* aKeys - ["SHIFT" | "CTRL" | "ALT"]
+* bActive - true | false
+*/
+// https://github.com/electron/electron/blob/master/docs/api/global-shortcut.md
+function setHotkeys(aKeys){
+	let sButton = null;
+	let oDict = {
+		"SHIFT": 'Shift',
+		"CTRL": 'CommandOrControl',
+		"ALT": 'Alt',
+	};
+	aKeys = aKeys.filter(el=>oDict[el]!=undefined).map(el=>oDict[el]);
+	
+	
+	let aNums = [
+		'1',
+		'2',
+		'3',
+		'4',
+		'5',
+		'6',
+		'7',
+		'8',
+		'9',
+		'0',
+		'num1',
+		'num2',
+		'num3',
+		'num4',
+		'num5',
+		'num6',
+		'num7',
+		'num8',
+		'num9',
+		'num0'
+	];
+	globalShortcut.unregisterAll();
+	//register 
+	aNums.forEach((sNum)=>{
+		let sHotKey = aKeys.length>0?`${aKeys.join('+')}+${sNum}` : sNum;
+		//console.log('set hotkey '+sHotKey);
+		const ret = globalShortcut.register(sHotKey, function(){
+			//console.log(sNum +' hotKey is pressed');
+			let sKey = sNum.includes('num')?sNum.replace('num', "") : sNum; 
+			mainWindow.webContents.send('hotkey_press', sKey);
+		});
+		
+		if (!ret) {
+			console.log(sHotKey+' registration failed')
+		}
+	});
+}
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -60,6 +122,7 @@ app.on('ready', createWindow)
 app.on('window-all-closed', function () {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
+	globalShortcut.unregisterAll();
   if (process.platform !== 'darwin') app.quit()
 })
 

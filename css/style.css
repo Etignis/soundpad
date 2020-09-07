@@ -129,6 +129,9 @@ body {
   margin: 0;
   font-family: Verdana, Helvetica, Geneva, Lucida, sans-s;
 }
+label {
+  cursor: pointer;
+}
 #app {
   height: 100vh;
   display: flex;
@@ -137,6 +140,7 @@ body {
   margin-bottom: 3px;
   background: #222;
   -webkit-app-region: drag;
+  counter-reset: tracks;
 }
 #app.default .sounder {
   width: 8rem;
@@ -188,29 +192,55 @@ body {
   flex-direction: row-reverse;
   -webkit-app-region: drag;
 }
+#edit,
 #config,
 #soundpad {
   overflow-y: auto;
 }
+#edit::-webkit-scrollbar,
 #config::-webkit-scrollbar,
 #soundpad::-webkit-scrollbar {
   width: 0.15rem;
   height: 0.15rem;
 }
+#edit::-webkit-scrollbar-thumb,
 #config::-webkit-scrollbar-thumb,
 #soundpad::-webkit-scrollbar-thumb {
   background: #777;
 }
+#edit::-webkit-scrollbar-track,
 #config::-webkit-scrollbar-track,
 #soundpad::-webkit-scrollbar-track {
   background: #3c3c3c;
 }
+#edit body,
 #config body,
 #soundpad body {
   scrollbar-face-color: #777;
   scrollbar-track-color: #3c3c3c;
 }
 #config {
+  color: #777;
+  padding: 0.3rem;
+}
+#config article {
+  padding: 0.3rem;
+  border: 1px solid #777;
+  border-radius: 3px;
+}
+#config .hotkey_tabble {
+  -webkit-app-region: no-drag;
+  display: flex;
+  flex-wrap: wrap;
+}
+#config .hotkey_tabble .col {
+  margin: 0.3rem;
+  padding: 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#edit {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -355,6 +385,20 @@ body {
 }
 .sounder:active {
   background: #5e5e5e;
+}
+.sounder:nth-child(-n+9) {
+  position: relative;
+}
+.sounder:nth-child(-n+9):before {
+  counter-increment: tracks;
+  /* Указываем идентификатор счетчика */
+  content: counter(tracks);
+  /* Выводим текст перед содержимым тега <h2> */
+  opacity: .8;
+  position: absolute;
+  top: -2px;
+  right: 0;
+  text-shadow: -1px -1px 0 #777, -1px 0 0 #777, -1px 1px 0 #777, -1px -1px 2px #777, -1px 0 2px #777, -1px 1px 2px #777, -3px 3px 6px #777, -3px 0 6px #777, -3px 3px 6px #777;
 }
 .sconf {
   -webkit-border-radius: 3px 3px 3px 3px;

@@ -1,4 +1,4 @@
-const remote = require('electron').remote;
+const {remote, ipcRenderer} = require('electron');
 const fs = require('fs');
 let w = remote.getCurrentWindow();
 let Sortable = require ('sortablejs');
@@ -322,6 +322,7 @@ Vue.component('sconf', {
 			],
 			
 			bEditMode: false,
+			bConfigMode: false,
 			sAppView: "default", // square, panel
 			oWinSizes: {
 				"default": {
@@ -344,6 +345,11 @@ Vue.component('sconf', {
 				},
 				bForeground: false
 			},
+			oHotkeys: {
+				"SHIFT": false,
+				"CTRL": false,
+				"ALT": false,
+			},
 			aLocalDataDebug: [],
 			bModalWinShow: false,
 			sModalWinCont: ""
@@ -355,11 +361,20 @@ Vue.component('sconf', {
 					{
 						type: "switch",
 						tumblr: "bEditMode",
+						id: "edit",
+						title: "Редактировать звуковые панели",
+						ico: "fas fa-edit",
+						action: "toggleEditMode",
+						active: this.bEditMode
+					},
+					{
+						type: "switch",
+						tumblr: "bConfigMode",
 						id: "config",
 						title: "Настройки",
 						ico: "fas fa-cog",
-						action: "toggleEditMode",
-						active: this.bEditMode
+						action: "toggleConfigMode",
+						active: this.bConfigMode
 					},
 					{
 						type: "switch",
@@ -389,7 +404,7 @@ Vue.component('sconf', {
 						type: "switch",
 						id: "foreground",
 						title: "Всегда на первом плане",
-						ico: "fas fa-star",
+						ico: "fas fa-thumbtack",
 						action: "setForeground",
 						active: this.oWin.bForeground
 					}
@@ -399,6 +414,7 @@ Vue.component('sconf', {
 		mounted: function() {
 			this._loadData();
 			this._initSortable();
+			this._setHotkeys();
 
 			w.setSize(this.oWinSizes[this.sAppView].w,this.oWinSizes[this.sAppView].h);
 			if(this.oWin.pos.x !=0 || this.oWin.pos.y != 0){
@@ -434,18 +450,36 @@ Vue.component('sconf', {
 			play: function(oItem){
 			},
 			
-			_initSortable: function(){
-				
-			let that = this;
-			setTimeout(function(){
-				let oList = document.getElementById('config');
-				Sortable.create(oList, {
-					handle: ".handler",
-					ghostClass: "drag_ghost",
-					dragClass: "drag_drag",
-					onEnd: that.SoundersReordered
-				});
-			}, 100);
+			_setHotkeys: function(){
+				this._registerHotkeys();
+				ipcRenderer.on('hotkey_press', (event, arg) => {
+					console.log(arg);
+					if(arg==="0") {
+						arg=10;
+					}
+					this._callSounder(arg);
+				})
+			},
+			
+			_callSounder(nIndex){
+				nIndex--;
+				if(nIndex>=0 && nIndex<10) {
+					let aSounders = app.$children.filter(el=>el.getRandomSound!=undefined);
+					aSounders[nIndex].itemclick();
+				}
+			},
+			
+			_initSortable: function(){				
+				let that = this;
+				setTimeout(function(){
+					let oList = document.getElementById('edit');
+					Sortable.create(oList, {
+						handle: ".handler",
+						ghostClass: "drag_ghost",
+						dragClass: "drag_drag",
+						onEnd: that.SoundersReordered
+					});
+				}, 100);
 			},
 			
 			_saveData: function(sParam) {
@@ -453,7 +487,8 @@ Vue.component('sconf', {
 					"aSoundCollections",
 					"sAppView",
 					"oWinSizes",
-					"oWin"
+					"oWin",
+					"oHotkeys"
 				];
 				if(sParam) {
 					aParams= [sParam];
@@ -471,7 +506,8 @@ Vue.component('sconf', {
 					"aSoundCollections",
 					"sAppView",
 					"oWinSizes",
-					"oWin"
+					"oWin",
+					"oHotkeys"
 				];
 				let that = this;
 				
@@ -581,6 +617,9 @@ Vue.component('sconf', {
 			toggleEditMode: function(){
 				this.bEditMode = !this.bEditMode;
 			},
+			toggleConfigMode: function(){
+				this.bConfigMode = !this.bConfigMode;
+			},
 			
 			toDefaultView: function(){
 				this.sAppView = "default";	
@@ -636,6 +675,36 @@ Vue.component('sconf', {
 				this.oWin.bForeground = !this.oWin.bForeground;
 				w.setAlwaysOnTop(this.oWin.bForeground);
 				this._saveData("oWin");	
+			},
+			
+			_registerHotkeys: function(){
+				let aKeys = [];
+				if(this.oHotkeys.SHIFT) {
+					aKeys.push('SHIFT');
+				}
+				if(this.oHotkeys.CTRL) {
+					aKeys.push('CTRL');
+				}
+				if(this.oHotkeys.ALT) {
+					aKeys.push('ALT');
+				}
+				
+				ipcRenderer.send('hotkeys', aKeys);
+			},
+			setSoundHotkeyShift: function(){
+				this.oHotkeys.SHIFT = !this.oHotkeys.SHIFT;
+				this._registerHotkeys();
+				this._saveData("oHotkeys");	
+			},
+			setSoundHotkeyCtrl: function(){
+				this.oHotkeys.CTRL = !this.oHotkeys.CTRL;
+				this._registerHotkeys();	
+				this._saveData("oHotkeys");				
+			},
+			setSoundHotkeyAlt: function(){
+				this.oHotkeys.ALT = !this.oHotkeys.ALT;	
+				this._registerHotkeys();
+				this._saveData("oHotkeys");				
 			},
 			
 			quite: function(){
