@@ -132,6 +132,10 @@ body {
 label {
   cursor: pointer;
 }
+a {
+  color: #487EC5;
+  cursor: pointer;
+}
 #app {
   height: 100vh;
   display: flex;
@@ -141,6 +145,9 @@ label {
   background: #222;
   -webkit-app-region: drag;
   counter-reset: tracks;
+}
+#app #main {
+  flex-grow: 9;
 }
 #app.default .sounder {
   width: 8rem;
@@ -218,6 +225,14 @@ label {
 #soundpad body {
   scrollbar-face-color: #777;
   scrollbar-track-color: #3c3c3c;
+}
+#new_version {
+  color: #777;
+  background: #151515;
+  padding: 0.3rem;
+  padding-bottom: 0.6rem;
+  -webkit-app-region: no-drag;
+  cursor: default;
 }
 #config {
   color: #777;

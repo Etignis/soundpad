@@ -14,6 +14,10 @@ body{
 label{
 	cursor :pointer;
 }
+a{
+	color: @color;
+	cursor: pointer;
+}
 #app{
 	height: 100vh;
 	display: flex;
@@ -24,6 +28,10 @@ label{
 	-webkit-app-region: drag;
 	
   counter-reset: tracks;
+	
+	#main{
+		flex-grow: 9;
+	}
 
 	&.default{
 		@size: 8rem;
@@ -99,6 +107,14 @@ label{
 #soundpad{
 	overflow-y: auto;	
 	.scrollbars(.15rem, @m-gray, lighten(@d-gray, 10%));
+}
+#new_version{
+	color: @m-gray;
+	background: darken(@d-gray, 5%);
+	padding: @padding;
+	padding-bottom: @padding*2;
+	-webkit-app-region: no-drag;
+	cursor: default;
 }
 #config{	
 	color: @m-gray;

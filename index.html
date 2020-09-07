@@ -32,79 +32,83 @@
 					</div>
 				</div>
 				
-				<div id="soundpad" v-show="!bEditMode && !bConfigMode">
-					<sounder
-						v-for="item in aSoundCollections"
-						:key="item.id"
-						:id="item.id"
-						:title="item.title"
-						:items="item.items"
-						:ico="item.ico"
-					>
-					</sounder>
-				</div>
-				<div id="edit" v-show="bEditMode">
-					<sconf
-						v-for="item0 in aSoundCollections"
-						:key="item0.id"
-						:id="item0.id"
-						:ico="item0.ico"
-						:title="item0.title"
-						:items="item0.items"
-						:iconlist="aIconNames"
-						:ref="'i_'+item0.id"
-						@ico_changed="change_ico($event, item0)"
-						@title_changed="change_title($event, item0)"
-						@remove="remove_sounder(item0)"
-					>
-						<div class='sound_list'>
-							<sounditem v-for="sound in item0.items"
-								:key="sound.src"
-								:src="sound.src"
-								@remove="deleteSound(item0, sound)"
-							>
-							</sounditem>
-						</div>
-						<input 
-							:id="'i_'+item0.id" 
-							class="new_sound" 
-							type="file" 
-							@change="addSound($event, item0)" 
-							accept="audio/*"
-							multiple/>
-						<label :for="'i_'+item0.id" :id="'i_'+item0.id" title='Добавить файл'><span>+</span></label>
-					</sconf>
+				<div id='main'>
+					<div id="soundpad" v-show="!bEditMode && !bConfigMode">
+						<sounder
+							v-for="item in aSoundCollections"
+							:key="item.id"
+							:id="item.id"
+							:title="item.title"
+							:items="item.items"
+							:ico="item.ico"
+						>
+						</sounder>
+					</div>
+					<div id="edit" v-show="bEditMode">
+						<sconf
+							v-for="item0 in aSoundCollections"
+							:key="item0.id"
+							:id="item0.id"
+							:ico="item0.ico"
+							:title="item0.title"
+							:items="item0.items"
+							:iconlist="aIconNames"
+							:ref="'i_'+item0.id"
+							@ico_changed="change_ico($event, item0)"
+							@title_changed="change_title($event, item0)"
+							@remove="remove_sounder(item0)"
+						>
+							<div class='sound_list'>
+								<sounditem v-for="sound in item0.items"
+									:key="sound.src"
+									:src="sound.src"
+									@remove="deleteSound(item0, sound)"
+								>
+								</sounditem>
+							</div>
+							<input 
+								:id="'i_'+item0.id" 
+								class="new_sound" 
+								type="file" 
+								@change="addSound($event, item0)" 
+								accept="audio/*"
+								multiple/>
+							<label :for="'i_'+item0.id" :id="'i_'+item0.id" title='Добавить файл'><span>+</span></label>
+						</sconf>
 
-					<button id='new_sounder' @click="addSounder" title='Добавить...'><span>+</span></button>
-				</div>
-				
-				
-				<div id='config' v-show="bConfigMode" >
-					<h1>Настройки</h1>
-					<article>
-						<h2>Горячие клавиши</h2>
-						<p>При нажатии сочетаний ниже будет воспроизведен звук под соответствующей цифрой</p>
-						<div class='hotkey_tabble'>
-							<div class='col'>
-								<div>
-									<div><label><input type='checkbox' v-model="oHotkeys.SHIFT" @click="setSoundHotkeyShift"> SHIFT</label></div>
-									<div><label><input type='checkbox' v-model="oHotkeys.CTRL" @click="setSoundHotkeyCtrl"> CTRL</label></div>
-									<div><label><input type='checkbox' v-model="oHotkeys.ALT" @click="setSoundHotkeyAlt"> ALT</label></div>
+						<button id='new_sounder' @click="addSounder" title='Добавить...'><span>+</span></button>
+					</div>
+					
+					<div id='config' v-show="bConfigMode" >
+						<h1>Настройки</h1>
+						<article>
+							<h2>Горячие клавиши</h2>
+							<p>При нажатии сочетаний ниже будет воспроизведен звук под соответствующей цифрой</p>
+							<div class='hotkey_tabble'>
+								<div class='col'>
+									<div>
+										<div><label><input type='checkbox' v-model="oHotkeys.SHIFT" @click="setSoundHotkeyShift"> SHIFT</label></div>
+										<div><label><input type='checkbox' v-model="oHotkeys.CTRL" @click="setSoundHotkeyCtrl"> CTRL</label></div>
+										<div><label><input type='checkbox' v-model="oHotkeys.ALT" @click="setSoundHotkeyAlt"> ALT</label></div>
+									</div>
+								</div>
+								<div class='col'>
+									+
+								</div>
+								<div class='col'>
+									Цифра
 								</div>
 							</div>
-							<div class='col'>
-								+
-							</div>
-							<div class='col'>
-								Цифра
-							</div>
-						</div>
-					</article>
-				</div>
-			<!-- <pre> -->
-	<!-- {{aLocalDataDebug}} -->
-			<!-- </pre> -->
+						</article>
+					</div>
+				<!-- <pre> -->
+		<!-- {{aLocalDataDebug}} -->
+				<!-- </pre> -->
 			
+				</div>
+				<div id='new_version' v-show="oMeta.bNewVersionAvailable">
+					{{sNewVersionText}} <a @click='openNewVersion'> новая версия {{oMeta.sLatestVersion}}</a> (Текущая версия: {{oMeta.sCurVersion}})
+				</div>
 			</div>
 
 

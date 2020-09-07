@@ -1,7 +1,9 @@
-const {remote, ipcRenderer} = require('electron');
+const {remote, ipcRenderer, shell} = require('electron');
 const fs = require('fs');
 let w = remote.getCurrentWindow();
 let Sortable = require ('sortablejs');
+
+const VERSION = '1.2'
 
 var fCtrlIsPressed = false;
 
@@ -352,7 +354,24 @@ Vue.component('sconf', {
 			},
 			aLocalDataDebug: [],
 			bModalWinShow: false,
-			sModalWinCont: ""
+			sModalWinCont: "",
+			oMeta: {
+				bNewVersionAvailable: false,
+				sCurVersion: VERSION,
+				sLatestVersion: "",
+				aStarts: [
+					"Вроде как",
+					"Смотри-ка,",
+					"Гляди,",
+					"Ну надо же,"
+				],
+				aEnds: [
+					"доступна",
+					"есть",
+					"появилась",
+					"найдена"
+				]
+			}
     },
 
 		computed: {
@@ -409,12 +428,25 @@ Vue.component('sconf', {
 						active: this.oWin.bForeground
 					}
 				]
+			},
+			
+			sNewVersionText: function(){
+				let aStarts = this.oMeta.aStarts;
+				let aEnds = this.oMeta.aEnds;
+				let sStart = aStarts[randd(0, aStarts.length-1)];
+				let sEnd = aEnds[randd(0, aEnds.length-1)];
+				
+				return `${sStart} ${sEnd}`;
+			},
+			sNewVersionLink: function(){
+				return `https://github.com/Etignis/soundpad/releases/tag/${this.oMeta.sLatestVersion}`;
 			}
 		},
 		mounted: function() {
 			this._loadData();
 			this._initSortable();
 			this._setHotkeys();
+			this._checkUpdates();
 
 			w.setSize(this.oWinSizes[this.sAppView].w,this.oWinSizes[this.sAppView].h);
 			if(this.oWin.pos.x !=0 || this.oWin.pos.y != 0){
@@ -449,7 +481,38 @@ Vue.component('sconf', {
 			
 			play: function(oItem){
 			},
-			
+			_checkUpdates: async function(){
+				var sUrl = 'https://api.github.com/repos/Etignis/soundpad/releases';
+				var response = await fetch(sUrl);
+				let that = this;
+				if (response.ok) { // если HTTP-статус в диапазоне 200-299
+					// получаем тело ответа (см. про этот метод ниже)
+					debugger;
+					var json = await response.json();
+					console.dir(json);
+					console.log(json[0].tag_name);
+					let sNewTagName= json[0].tag_name.replace("v","");
+					let aTagName = sNewTagName.split(".");
+					let aVersion = VERSION.split(".");
+					for(let i=0; i<4; i++) {
+						let sNew = aTagName[i] || 0;
+						let sCur = aVersion[i] || 0;
+						
+						if(sNew<sCur) {return}
+						if(sNew>sCur) {
+							this.oMeta.bNewVersionAvailable = true;
+							this.oMeta.sLatestVersion = `v${sNewTagName}`; 
+							return;
+						}
+						
+					}
+				} else {
+					alert("Ошибка HTTP: " + response.status);
+				}
+			},
+			openNewVersion: function(){				
+				shell.openExternal(this.sNewVersionLink);
+			},
 			_setHotkeys: function(){
 				this._registerHotkeys();
 				ipcRenderer.on('hotkey_press', (event, arg) => {
